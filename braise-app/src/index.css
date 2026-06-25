@@ -1020,3 +1020,120 @@ select:focus { outline: none; border-color: var(--ember); }
   .admin-link { padding: 8px; }
   .order-detail { grid-template-columns: 1fr; }
 }
+
+
+/* Cloche dans la sidebar */
+.notif-trigger { width: 100%; text-align: left; border: none; }
+.notif-bell-wrap { position: relative; display: inline-flex; }
+.notif-bell-badge {
+  position: absolute; top: -6px; right: -8px;
+  background: var(--ember); color: var(--bg-char);
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  min-width: 18px; height: 18px; border-radius: 20px; padding: 0 4px;
+  display: flex; align-items: center; justify-content: center;
+  animation: notifPop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes notifPop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+/* Overlay panneau */
+.notif-overlay {
+  position: fixed; inset: 0; z-index: 250;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(2px);
+}
+
+/* Panneau latéral notifications */
+.notif-panel {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 340px; max-width: 95vw;
+  background: var(--bg-smoke); border-left: 1px solid var(--line);
+  z-index: 251; display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.notif-panel.open { transform: translateX(0); }
+
+.notif-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px; border-bottom: 1px solid var(--line); flex-shrink: 0;
+}
+.notif-panel-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 20px;
+  display: flex; align-items: center; gap: 10px; letter-spacing: 0.04em;
+}
+.notif-badge {
+  background: var(--ember); color: var(--bg-char);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px;
+}
+.notif-read-all {
+  background: transparent; border: 1px solid var(--line); border-radius: 6px;
+  color: var(--ash); padding: 6px; cursor: pointer; display: flex;
+  transition: color 0.2s, border-color 0.2s;
+}
+.notif-read-all:hover { color: var(--paper); border-color: var(--paper); }
+
+.notif-list { flex: 1; overflow-y: auto; }
+.notif-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; gap: 12px; color: var(--ash); font-size: 14px;
+}
+
+.notif-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 20px; border-bottom: 1px solid var(--line);
+  cursor: pointer; position: relative;
+  transition: background 0.15s ease;
+}
+.notif-item:hover { background: var(--bg-smoke-2); }
+.notif-item.unread { background: rgba(255,68,35,0.05); }
+
+.notif-ico {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--ember); color: var(--ember);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  margin-top: 2px;
+}
+.notif-body { flex: 1; min-width: 0; }
+.notif-title { font-size: 13px; margin-bottom: 3px; }
+.notif-title strong { color: var(--paper); }
+.notif-desc { font-size: 12px; color: var(--ash); margin-bottom: 4px; }
+.notif-time {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ash);
+}
+.notif-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--ember);
+  flex-shrink: 0; margin-top: 6px;
+  animation: notifPop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* Toast (coin bas-droit) */
+.notif-toast {
+  position: fixed; bottom: 28px; right: 28px; z-index: 400;
+  width: 320px; background: var(--bg-smoke-2);
+  border: 1px solid var(--ember); border-radius: 8px;
+  padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px;
+  box-shadow: 0 8px 32px rgba(255,68,35,0.2);
+  opacity: 0; transform: translateY(16px) scale(0.97); pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.notif-toast.visible {
+  opacity: 1; transform: translateY(0) scale(1); pointer-events: all;
+}
+.notif-toast-ico {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--ember); color: var(--bg-char);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.notif-toast-body { flex: 1; min-width: 0; }
+.notif-toast-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 18px;
+  letter-spacing: 0.03em; margin-bottom: 3px;
+}
+.notif-toast-desc { font-size: 13px; color: var(--ash); margin-bottom: 5px; }
+.notif-toast-meta {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--cheese);
+  font-family: 'JetBrains Mono', monospace;
+}

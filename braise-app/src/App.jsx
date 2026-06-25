@@ -1,15 +1,18 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { AuthProvider } from "./context/AuthContext";
-import { CartProvider } from "./context/CartContext";
+import { AuthProvider }         from "./context/AuthContext";
+import { CartProvider }         from "./context/CartContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
 // Layout public
-import Nav        from "./components/Nav";
-import Footer     from "./components/Footer";
-import CartDrawer from "./components/CartDrawer";
+import Nav          from "./components/Nav";
+import Footer       from "./components/Footer";
+import CartDrawer   from "./components/CartDrawer";
 
 // Layout admin
-import AdminSidebar from "./components/admin/AdminSidebar";
+import AdminSidebar         from "./components/admin/AdminSidebar";
+import NotificationPanel    from "./components/admin/NotificationPanel";
+import NotificationToast    from "./components/admin/NotificationToast";
 
 // Guards
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -56,10 +59,14 @@ function PublicLayout({ children }) {
 
 function AdminLayout({ children }) {
   return (
-    <div className="admin-layout">
-      <AdminSidebar />
-      <div className="admin-content">{children}</div>
-    </div>
+    <NotificationProvider>
+      <div className="admin-layout">
+        <AdminSidebar />
+        <div className="admin-content">{children}</div>
+      </div>
+      <NotificationPanel />
+      <NotificationToast />
+    </NotificationProvider>
   );
 }
 
@@ -71,10 +78,10 @@ export default function App() {
           <ScrollToTop />
           <Routes>
             {/* ── Site public + interface client ── */}
-            <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-            <Route path="/menu" element={<PublicLayout><Menu /></PublicLayout>} />
-            <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
-            <Route path="/login"   element={<PublicLayout><Login /></PublicLayout>} />
+            <Route path="/"         element={<PublicLayout><Home /></PublicLayout>} />
+            <Route path="/menu"     element={<PublicLayout><Menu /></PublicLayout>} />
+            <Route path="/contact"  element={<PublicLayout><Contact /></PublicLayout>} />
+            <Route path="/login"    element={<PublicLayout><Login /></PublicLayout>} />
             <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
             <Route path="/checkout" element={<PublicLayout><ProtectedRoute><Checkout /></ProtectedRoute></PublicLayout>} />
             <Route path="/order/:id" element={<PublicLayout><ProtectedRoute><OrderTracking /></ProtectedRoute></PublicLayout>} />
@@ -82,7 +89,7 @@ export default function App() {
 
             {/* ── Interface admin ── */}
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminRoute><AdminLayout><AdminDashboard /></AdminLayout></AdminRoute>} />
+            <Route path="/admin"        element={<AdminRoute><AdminLayout><AdminDashboard /></AdminLayout></AdminRoute>} />
             <Route path="/admin/orders" element={<AdminRoute><AdminLayout><AdminOrders /></AdminLayout></AdminRoute>} />
             <Route path="/admin/menu"   element={<AdminRoute><AdminLayout><AdminMenu /></AdminLayout></AdminRoute>} />
 
